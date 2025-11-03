@@ -1,4 +1,4 @@
-import { users, saveUser, deleteUser } from '/savedContacts.js';
+import { users, saveUser, deleteUser } from './savedContacts.js';
 export function Home() {
   setTimeout(() => {
     const nameInput = document.getElementById("nameInput");
