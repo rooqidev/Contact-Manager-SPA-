@@ -1,4 +1,4 @@
-import { users, deleteUser, renderContacts } from '/savedContacts.js';
+import { users, deleteUser, renderContacts } from './savedContacts.js';
 export function AllContacts() {
   setTimeout(() => {
     const delBtn = document.querySelector(".delete-btn");
