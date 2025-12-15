@@ -1,30 +1,55 @@
-export const users = JSON.parse(localStorage.getItem("userlist")) || {};
-//localStorage.clear()
+export let users = JSON.parse(localStorage.getItem("userlist")) || [];
 
-export function saveUser(name, number){
-  users[name] = number;
+export function updateContacts(){
   localStorage.setItem("userlist", JSON.stringify(users));
 }
 
-export function deleteUser(name){
-  delete users[name];
-  localStorage.setItem("userlist", JSON.stringify(users));
+export function saveUser(name, age, email, number){
+   //alert(name);
+   //alert(age);
+   //alert(email);
+   //alert(number);
+   users.push({
+     id: Date.now(),
+     name: name,
+     age: age,
+     email: email,
+     number: number,
+   });
+   updateContacts();
+}
+
+export function deleteUser(ID){
+  // alert(ID)
+  users = users.filter(user => user.id != ID);
+  updateContacts();
 }
 
 export function renderContacts(){
-  const usersArray = [];
-  for (let user in users) {
-    usersArray.push({
-      name: user,
-      phone: users[user],
-    })
-  };
-  
-  const contactsHTML = usersArray.map((user) => `  <div class="contact-detail">
-  <b class="person-name">Name | ${user.name}</b>
-  <b class="person-phone">Phone | ${user.phone}</b>
-  </div>
-  `).join('');
-  
-  return contactsHTML;
+  const renderContactsHTML = document.querySelector(".contact-list");
+  renderContactsHTML.innerHTML = "";
+  if(users.length >= 1){
+  	// console.log(users);
+    users.map((user)=>{
+      const userDiv = document.createElement("div");
+      userDiv.className = "user-div";
+      userDiv.innerHTML = `
+      <b>Name: ${user.name}</b>
+      <b>Age: ${user.age}</b>
+      <b>Email: ${user.email}</b>
+      <b>Number: ${user.number}</b>
+      <div>
+      <button class="item" tabindex="0" id="deleteBtn" data-id="${user.id}">Delete this</button>
+      </div>
+      
+      
+      `;
+      renderContactsHTML.appendChild(userDiv);
+    });
+  } else{
+    renderContactsHTML.innerHTML = `
+    <b>No contacts found..</b>
+    `;
+  }
 }
+// <img src="${user.image}"/>
